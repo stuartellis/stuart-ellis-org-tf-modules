@@ -11,7 +11,7 @@ terraform {
 }
 
 resource "aws_ssm_parameter" "parameter_terraform" {
-  name  = "/stuart-ellis/lab/tf/canary"
-  value = "Terraform is active"
+  name  = "/stuart-ellis/lab/tf/timestamp"
+  value = timestamp()
   type  = "String"
 }
