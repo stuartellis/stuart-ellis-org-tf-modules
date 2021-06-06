@@ -10,15 +10,13 @@ terraform {
 
 }
 
-resource "aws_ssm_parameter" "parameter_terraform" {
-  name  = "/stuart-ellis/tf/timestamp"
-  description = "Timestamp for Terraform run"
-  overwrite = true
-  value = timestamp()
-  type  = "String"
-}
-
 resource "aws_sns_topic" "alerts" {
   name              = "stuart-ellis-alerts"
   display_name      = "aws-alerts"
+}
+
+resource "aws_sns_topic_subscription" "email0001" {
+  topic_arn = aws_sns_topic.alerts.arn
+  protocol  = "email"
+  endpoint  = var.alerts_email
 }
