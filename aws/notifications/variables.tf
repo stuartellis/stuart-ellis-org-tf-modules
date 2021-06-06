@@ -3,8 +3,5 @@ variable "root_email" {
 }
 
 variable "projects" {
-  type = list(object({
-    name  = string
-    email = string
-  }))
+  type = map
 }
