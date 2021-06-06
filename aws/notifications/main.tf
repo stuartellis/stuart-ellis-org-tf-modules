@@ -15,8 +15,8 @@ resource "aws_sns_topic" "alerts" {
   display_name      = "aws-alerts"
 }
 
-resource "aws_sns_topic_subscription" "email0001" {
+resource "aws_sns_topic_subscription" "root_email" {
   topic_arn = aws_sns_topic.alerts.arn
   protocol  = "email"
-  endpoint  = var.alerts_email
+  endpoint  = var.root_email
 }
