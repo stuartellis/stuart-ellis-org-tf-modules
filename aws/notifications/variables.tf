@@ -3,8 +3,8 @@ variable "root_email" {
 }
 
 variable "projects" {
-  type = object({
+  type = list(object({
     name  = string
     email = string
-  })
+  }))
 }
