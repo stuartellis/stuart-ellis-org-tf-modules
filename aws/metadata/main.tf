@@ -1,5 +1,5 @@
 terraform {
-  required_version = "= 1.0.0"
+  required_version = ">= 1.0.0"
 
   required_providers {
     aws = {
@@ -11,9 +11,9 @@ terraform {
 }
 
 resource "aws_ssm_parameter" "parameter_terraform" {
-  name  = "/stuart-ellis/tf/timestamp"
+  name        = "/stuart-ellis/tf/timestamp"
   description = "Timestamp for Terraform run"
-  overwrite = true
-  value = timestamp()
-  type  = "String"
+  overwrite   = true
+  value       = timestamp()
+  type        = "String"
 }

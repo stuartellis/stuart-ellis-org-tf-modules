@@ -1,5 +1,5 @@
 terraform {
-  required_version = "= 1.0.0"
+  required_version = ">= 1.0.0"
 
   required_providers {
     aws = {
@@ -11,8 +11,8 @@ terraform {
 }
 
 resource "aws_sns_topic" "alerts" {
-  name              = "stuart-ellis-alerts"
-  display_name      = "aws-alerts"
+  name         = "stuart-ellis-alerts"
+  display_name = "aws-alerts"
 }
 
 resource "aws_sns_topic_subscription" "root_email" {
