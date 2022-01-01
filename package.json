@@ -1,0 +1,28 @@
+{
+  "name": "stuartellis-org-tf-modules",
+  "version": "0.1.0",
+  "description": "Terraform modules for stuartellis.org",
+  "config": {
+    "tflint": {
+      "version": "0.34.1"
+    }
+  },
+  "scripts": {
+    "clean": "rimraf bin tmp",
+    "install": "./do.sh setup",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stuartellis/stuartellis-org-tf-modules.git"
+  },
+  "author": "Stuart Ellis <stuart@stuartellis.name>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stuartellis/stuartellis-org-tf-modules/issues"
+  },
+  "homepage": "https://github.com/stuartellis/stuartellis-org-tf-modules#readme",
+  "devDependencies": {
+    "rimraf": "^3.0.2"
+  }
+}
