@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Terraform modules for stuartellis.org",
   "config": {
+    "terragrunt": {
+      "version": "0.35.16"
+    },
     "tflint": {
       "version": "0.34.1"
     }
