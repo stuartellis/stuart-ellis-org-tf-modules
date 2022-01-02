@@ -21,7 +21,7 @@ stages:
     displayName: Terraform for ${{ parameters.providerName }}
     jobs:
       - deployment:
-        displayName: Test with ${{ parameters.providerServiceConnection }} ${{ parameters.environment }} ${{ parameters.cloudRegion }}
+        displayName: Test with ${{ parameters.environment }} ${{ parameters.cloudRegion }} with ${{ parameters.providerServiceConnection }}
         pool:
           vmImage: ${{ parameters.vmImage }}
         environment: ${{ parameters.environment }}
