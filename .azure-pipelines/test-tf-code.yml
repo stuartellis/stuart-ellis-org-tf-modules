@@ -43,7 +43,7 @@ steps:
       providerServiceConnection: ${{ parameters.providerServiceConnection }}
       targetName: ${{ parameters.targetName }}
       cmdExe: ${{ parameters.tflintExe }}
-      cmdOptions: --init
+      cmdOptions: --init -c ${{ parameters.terraformSourceDir }}/../.tflint.hcl
       workingDirectory: ${{ parameters.terraformSourceDir }}
 
   - template: run-tf-lint-${{ parameters.providerName }}.yml
