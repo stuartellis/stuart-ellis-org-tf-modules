@@ -41,7 +41,7 @@ stages:
                     providerServiceConnection: ${{ parameters.providerServiceConnection }}
                     targetName: init
                     cmdExe: $(Build.Repository.LocalPath)/bin/tflint
-                    cmdOptions: --init -c ${{ parameters.tflintConfig }}
+                    cmdOptions: --init -c $(Build.Repository.LocalPath)/config/.tflint.hcl
                     workingDirectory: $(Build.Repository.LocalPath)
 
                 - ${{ each terraformModule in parameters.terraformModules }}:
