@@ -11,7 +11,7 @@ terraform {
 }
 
 resource "aws_ssm_parameter" "parameter_terraform" {
-  name        = "/stuart-ellis/tf/timestamp"
+  name        = "/${var.namespace}/tf/timestamp"
   description = "Timestamp for Terraform run"
   overwrite   = true
   value       = timestamp()
