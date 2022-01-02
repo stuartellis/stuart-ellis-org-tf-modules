@@ -15,7 +15,15 @@ parameters:
     type: string
 
 steps:
-  # Validate configuration for stack
+  - template: run-tf-cmd-${{ parameters.providerName }}.yml
+    parameters:
+      cloudRegion: ${{ parameters.cloudRegion }}
+      providerServiceConnection: ${{ parameters.providerServiceConnection }}
+      targetName: ${{ parameters.targetName }}
+      cmdName: init
+      cmdExe: ${{ parameters.terraformExe }}
+      workingDirectory: ${{ parameters.terraformSourceDir }}
+
   - template: run-tf-cmd-${{ parameters.providerName }}.yml
     parameters:
       cloudRegion: ${{ parameters.cloudRegion }}

@@ -14,9 +14,9 @@ trigger:
       - README.md
 
 stages:
-  - template: .azure-pipelines/test-tf-provider-modules.yml
+  - template: .azure-pipelines/test-tf-modules.yml
     parameters:
-      environment: test
+      environment: infra-test
       providerName: aws
       providerServiceConnection: sje-aws-origin
       cloudRegion: us-east-1
