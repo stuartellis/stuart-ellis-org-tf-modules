@@ -35,6 +35,15 @@ stages:
                   parameters:
                     workingDirectory: $(Build.Repository.LocalPath)
 
+                - template: run-tf-lint-${{ parameters.providerName }}.yml
+                  parameters:
+                    cloudRegion: ${{ parameters.cloudRegion }}
+                    providerServiceConnection: ${{ parameters.providerServiceConnection }}
+                    targetName: init
+                    cmdExe: $(Build.Repository.LocalPath)/bin/tflint
+                    cmdOptions: --init -c ${{ parameters.tflintConfig }}
+                    workingDirectory: $(Build.Repository.LocalPath)
+
                 - ${{ each terraformModule in parameters.terraformModules }}:
                     - template: create-output-dir.yml
                       parameters:
@@ -51,6 +60,7 @@ stages:
                         terraformOutputDir: $(Agent.TempDirectory)/${{ parameters.runIdentifier }}/${{ terraformModule.Key }}
                         terraformSourceDir: ${{ parameters.terraformSourcePath }}/${{ terraformModule.Key }}
                         terraformExe: terraform
+                        tflintConfig: $(Build.Repository.LocalPath)/config/.tflint.hcl
                         tflintExe: $(Build.Repository.LocalPath)/bin/tflint
 
                 - template: archive-outputs.yml

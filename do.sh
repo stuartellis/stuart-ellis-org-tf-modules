@@ -5,17 +5,29 @@ set -euo pipefail
 ### Configuration
 
 export BIN_DIR="bin"
+export CONFIG_DIR="config"
 export TMP_DIR="tmp"
 
 TFLINT_VERSION=$(jq -r .config.tflint.version package.json)
 export TFLINT_VERSION
 export TFLINT_EXE=tflint
 
+TFLINT_AWS_VERSION=$(jq -r '.config.tflint.rulesets["ruleset-aws"]' package.json)
+export TFLINT_AWS_VERSION
+TFLINT_AWS_TEMPLATE_CONFIG="templates/tflint/aws/.tflint.hcl"
+export TFLINT_AWS_TEMPLATE_CONFIG
+TFLINT_AWS_LIVE_CONFIG="$CONFIG_DIR/.tflint.hcl"
+export TFLINT_AWS_LIVE_CONFIG
+
 TERRAGRUNT_VERSION=$(jq -r .config.terragrunt.version package.json)
 export TERRAGRUNT_VERSION
 export TERRAGRUNT_EXE=terragrunt
 
 ### Functions
+
+function generate_configs () {
+  cat $TFLINT_AWS_TEMPLATE_CONFIG | sed s/X.X.X/"$TFLINT_AWS_VERSION"/g >> $CONFIG_DIR/.tflint.hcl
+}
 
 function specify_arch () {
   CPU_TYPE=$(uname -m)
@@ -67,6 +79,7 @@ case $1 in
     specify_download_urls
     echo "Expected Terragrunt version: $TERRAGRUNT_VERSION"
     echo "Expected TFLint version: $TFLINT_VERSION"
+    echo "Expected TFLint AWS Ruleset version: $TFLINT_AWS_VERSION"
     echo "Detected CPU architecture: $ARCH"
     echo "Detected Operating system: $OS"
     echo "Terragrunt download URL: $TERRAGRUNT_URL" 
@@ -74,7 +87,8 @@ case $1 in
     ./"$BIN_DIR"/"$TERRAGRUNT_EXE" --version
   ;;
   clean)
-   [ -d $BIN_DIR ] && rm -r $BIN_DIR 
+   [ -d $BIN_DIR ] && rm -r $BIN_DIR
+   [ -d $CONFIG_DIR ] && rm -r $CONFIG_DIR 
    [ -d $TMP_DIR ] && rm -r $TMP_DIR 
   ;;
   setup)
@@ -82,6 +96,7 @@ case $1 in
     specify_os
     specify_download_urls
     [ -d "$BIN_DIR" ] || mkdir "$BIN_DIR"
+    [ -d "$CONFIG_DIR" ] || mkdir "$CONFIG_DIR"
     [ -d "$TMP_DIR" ] || mkdir "$TMP_DIR"
 
     # Terragrunt
@@ -97,6 +112,8 @@ case $1 in
       mv $TMP_DIR/$TFLINT_EXE $BIN_DIR/$TFLINT_EXE
       chmod +x "$BIN_DIR"/"$TFLINT_EXE"
     fi
+
+    generate_configs
 
   ;;
   *)

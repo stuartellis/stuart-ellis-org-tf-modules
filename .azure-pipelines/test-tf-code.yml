@@ -15,6 +15,8 @@ parameters:
     type: string
   - name: terraformExe
     type: string
+  - name: tflintConfig
+    type: string
   - name: tflintExe
     type: string
 
@@ -43,16 +45,7 @@ steps:
       providerServiceConnection: ${{ parameters.providerServiceConnection }}
       targetName: ${{ parameters.targetName }}
       cmdExe: ${{ parameters.tflintExe }}
-      cmdOptions: --init -c ${{ parameters.terraformSourceDir }}/../.tflint.hcl
-      workingDirectory: ${{ parameters.terraformSourceDir }}
-
-  - template: run-tf-lint-${{ parameters.providerName }}.yml
-    parameters:
-      cloudRegion: ${{ parameters.cloudRegion }}
-      providerServiceConnection: ${{ parameters.providerServiceConnection }}
-      targetName: ${{ parameters.targetName }}
-      cmdExe: ${{ parameters.tflintExe }}
-      cmdOptions: -c ${{ parameters.terraformSourceDir }}/../.tflint.hcl -f junit > ${{ parameters.terraformOutputDir }}/tflint-results.xml
+      cmdOptions: -c ${{ parameters.tflintConfig }} -f junit > ${{ parameters.terraformOutputDir }}/tflint-results.xml
       workingDirectory: ${{ parameters.terraformSourceDir }}
 
   - task: PublishTestResults@2
