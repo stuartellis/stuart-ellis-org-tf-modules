@@ -49,7 +49,7 @@ stages:
                         targetName: ${{ terraformModule.Key }}
                         terraformOutputDir: $(Agent.TempDirectory)/${{ parameters.runIdentifier }}/${{ terraformModule.Key }}
                         terraformSourceDir: ${{ parameters.terraformSourcePath }}/${{ terraformModule.Key }}
-                        terragruntExe: $(Build.Repository.LocalPath)/bin/terragrunt
+                        terraformExe: terraform
 
                 - template: archive-outputs.yml
                   parameters:

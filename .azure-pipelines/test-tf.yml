@@ -11,7 +11,7 @@ parameters:
     type: string
   - name: terraformSourceDir
     type: string
-  - name: terragruntExe
+  - name: terraformExe
     type: string
 
 steps:
@@ -22,5 +22,5 @@ steps:
       providerServiceConnection: ${{ parameters.providerServiceConnection }}
       targetName: ${{ parameters.targetName }}
       cmdName: validate
-      cmdExe: ${{ parameters.terragruntExe }}
+      cmdExe: ${{ parameters.terraformExe }}
       workingDirectory: ${{ parameters.terraformSourceDir }}
