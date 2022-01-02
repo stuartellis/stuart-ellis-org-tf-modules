@@ -18,11 +18,10 @@ stages:
     parameters:
       environment: test
       providerName: aws
-      projectName: ${{ variables.vmImage }}
       providerServiceConnection: sje-aws-origin
       cloudRegion: us-east-1
       runIdentifier: tf-run-aws-test-stuartellis-origin-us-east-1-$(Build.BuildId)
-      stackGroupPath: $(Build.Repository.LocalPath)/aws
+      terraformSourcePath: $(Build.Repository.LocalPath)/aws
       vmImage: ${{ variables.vmImage }}
       terraformModules:
         sns_topic: sns_topic
