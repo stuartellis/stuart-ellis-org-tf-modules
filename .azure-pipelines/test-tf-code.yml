@@ -43,6 +43,15 @@ steps:
       providerServiceConnection: ${{ parameters.providerServiceConnection }}
       targetName: ${{ parameters.targetName }}
       cmdExe: ${{ parameters.tflintExe }}
+      cmdOptions: --init
+      workingDirectory: ${{ parameters.terraformSourceDir }}
+
+  - template: run-tf-lint-${{ parameters.providerName }}.yml
+    parameters:
+      cloudRegion: ${{ parameters.cloudRegion }}
+      providerServiceConnection: ${{ parameters.providerServiceConnection }}
+      targetName: ${{ parameters.targetName }}
+      cmdExe: ${{ parameters.tflintExe }}
       cmdOptions: -c ${{ parameters.terraformSourceDir }}/../.tflint.hcl -f junit > ${{ parameters.terraformOutputDir }}/lint-results.xml
       workingDirectory: ${{ parameters.terraformSourceDir }}
 
