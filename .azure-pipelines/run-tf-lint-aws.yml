@@ -20,6 +20,6 @@ steps:
       regionName: ${{ parameters.cloudRegion }}
       scriptType: inline
       inlineScript: |
-        ${{ parameters.cmdExe }} ${{ parameters.cmdName }} ${{ parameters.cmdOptions }}
+        ${{ parameters.cmdExe }} ${{ parameters.cmdOptions }}
       disableAutoCwd: true
       workingDirectory: ${{ parameters.workingDirectory }}
