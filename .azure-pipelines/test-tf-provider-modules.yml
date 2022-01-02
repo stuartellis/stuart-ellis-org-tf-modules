@@ -1,0 +1,60 @@
+parameters:
+  - name: cloudRegion
+    type: string
+  - name: providerServiceConnection
+    type: string
+  - name: environment
+    type: string
+  - name: projectName
+    type: string
+  - name: providerName
+    type: string
+  - name: runIdentifier
+    type: string
+  - name: stackGroupPath
+    type: string
+  - name: terraformModules
+    type: object
+  - name: vmImage
+    type: string
+
+stages:
+  - stage:
+    displayName: Terraform for ${{ parameters.providerName }} ${{ parameters.environment }} ${{ parameters.cloudRegion }}
+    jobs:
+      - deployment:
+        displayName: Test with ${{ parameters.providerServiceConnection }}
+        pool:
+          vmImage: ${{ parameters.vmImage }}
+        environment: ${{ parameters.environment }}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+
+                - template: setup-binaries.yml
+                  parameters:
+                    workingDirectory: ${{ parameters.projectName }}
+
+                - ${{ each terraformStack in parameters.terraformModules }}:
+                    - template: create-output-dir.yml
+                      parameters:
+                        projectName: ${{ parameters.projectName }}
+                        outputDir: $(Agent.TempDirectory)/${{ parameters.runIdentifier }}/${{ terraformStack.Key }}
+
+                    - template: test-tf.yml
+                      parameters:
+                        cloudRegion: ${{ parameters.cloudRegion }}
+                        providerName: ${{ parameters.providerName }}
+                        providerServiceConnection: ${{ parameters.providerServiceConnection }}
+                        projectName: ${{ parameters.projectName }}
+                        targetName: ${{ terraformStack.Key }}
+                        terraformOutputDir: $(Agent.TempDirectory)/${{ parameters.runIdentifier }}/${{ terraformStack.Key }}
+                        terraformSourceDir: ${{ parameters.stackGroupPath }}/${{ terraformStack.Key }}
+                        terragruntExe: $(Build.Repository.LocalPath)/${{ parameters.projectName }}/bin/terragrunt
+
+                - template: archive-outputs.yml
+                  parameters:
+                    archiveName: ${{ parameters.runIdentifier }}
+                    rootDir: $(Agent.TempDirectory)/${{ parameters.runIdentifier }}

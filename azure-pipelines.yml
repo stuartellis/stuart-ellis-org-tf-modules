@@ -14,13 +14,14 @@ trigger:
       - README.md
 
 stages:
-  - stage: test
-    displayName: Test
-    jobs:
-      - job: test
-        displayName: Run tests
-        pool:
-          vmImage: ${{ variables.vmImage }}
-        steps:
-          - bash: echo "$(terraform version)"
-            displayName: Show Terraform version
+  - template: .azure-pipelines/test-tf-provider-modules.yml
+    parameters:
+      environment: test
+      providerName: aws
+      providerServiceConnection: sje-aws-origin
+      cloudRegion: us-east-1
+      runIdentifier: tf-run-aws-test-stuartellis-origin-us-east-1-$(Build.BuildId)
+      stackGroupPath: $(Build.Repository.LocalPath)/aws
+      vmImage: ${{ variables.vmImage }}
+      terraformModules:
+        sns_topic: sns_topic
