@@ -5,6 +5,8 @@ parameters:
     type: string
   - name: providerName
     type: string
+  - name: runIdentifier
+    type: string
   - name: targetName
     type: string
   - name: terraformOutputDir
@@ -12,6 +14,8 @@ parameters:
   - name: terraformSourceDir
     type: string
   - name: terraformExe
+    type: string
+  - name: tflintExe
     type: string
 
 steps:
@@ -32,3 +36,20 @@ steps:
       cmdName: validate
       cmdExe: ${{ parameters.terraformExe }}
       workingDirectory: ${{ parameters.terraformSourceDir }}
+
+  - template: run-tf-lint-${{ parameters.providerName }}.yml
+    parameters:
+      cloudRegion: ${{ parameters.cloudRegion }}
+      providerServiceConnection: ${{ parameters.providerServiceConnection }}
+      targetName: ${{ parameters.targetName }}
+      cmdExe: ${{ parameters.tflintExe }}
+      cmdOptions: -c ${{ parameters.terraformSourceDir }}/../.tflint.hcl -f junit > ${{ parameters.terraformOutputDir }}/lint-results.xml
+      workingDirectory: ${{ parameters.terraformSourceDir }}
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    displayName: Publish linter results
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: ${{ parameters.terraformOutputDir }}/lint-results.xml
+      testRunTitle: ${{variables.name}}-lint-results

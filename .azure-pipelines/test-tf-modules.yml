@@ -46,10 +46,12 @@ stages:
                         cloudRegion: ${{ parameters.cloudRegion }}
                         providerName: ${{ parameters.providerName }}
                         providerServiceConnection: ${{ parameters.providerServiceConnection }}
+                        runIdentifier: tf-testing-${{ parameters.providerName }}-${{ parameters.environment }}-${{ parameters.providerServiceConnection }}-modules-${{ parameters.cloudRegion }}-${{ parameters.terraformModule.Key }}-$(Build.BuildId)
                         targetName: ${{ terraformModule.Key }}
                         terraformOutputDir: $(Agent.TempDirectory)/${{ parameters.runIdentifier }}/${{ terraformModule.Key }}
                         terraformSourceDir: ${{ parameters.terraformSourcePath }}/${{ terraformModule.Key }}
                         terraformExe: terraform
+                        tflintExe: $(Build.Repository.LocalPath)/bin/tflint
 
                 - template: archive-outputs.yml
                   parameters:
