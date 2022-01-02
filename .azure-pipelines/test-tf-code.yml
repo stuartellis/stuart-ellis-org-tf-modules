@@ -52,13 +52,13 @@ steps:
       providerServiceConnection: ${{ parameters.providerServiceConnection }}
       targetName: ${{ parameters.targetName }}
       cmdExe: ${{ parameters.tflintExe }}
-      cmdOptions: -c ${{ parameters.terraformSourceDir }}/../.tflint.hcl -f junit > ${{ parameters.terraformOutputDir }}/lint-results.xml
+      cmdOptions: -c ${{ parameters.terraformSourceDir }}/../.tflint.hcl -f junit > ${{ parameters.terraformOutputDir }}/tflint-results.xml
       workingDirectory: ${{ parameters.terraformSourceDir }}
 
   - task: PublishTestResults@2
     condition: succeededOrFailed()
-    displayName: Publish linter results
+    displayName: Publish linter results for ${{ parameters.targetName }}
     inputs:
       testRunner: JUnit
-      testResultsFiles: ${{ parameters.terraformOutputDir }}/lint-results.xml
-      testRunTitle: ${{variables.name}}-lint-results
+      testResultsFiles: ${{ parameters.terraformOutputDir }}/tflint-results.xml
+      testRunTitle: ${{ parameters.targetName }}-tflint-results
