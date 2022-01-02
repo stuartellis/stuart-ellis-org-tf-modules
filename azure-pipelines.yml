@@ -1,3 +1,15 @@
+parameters:
+  - name: dryRun
+    displayName: Dry run only
+    type: boolean
+    default: true
+  - name: terraformModules
+    displayName: Terraform modules
+    type: object
+    default:
+      shared_ssm_parameters: shared_ssm_parameters
+      sns_topic: sns_topic
+
 variables:
   - template: .azure-pipelines/variables.yml
 
@@ -23,5 +35,4 @@ stages:
       runIdentifier: tf-run-aws-test-stuartellis-origin-us-east-1-$(Build.BuildId)
       terraformSourcePath: $(Build.Repository.LocalPath)/aws
       vmImage: ${{ variables.vmImage }}
-      terraformModules:
-        sns_topic: sns_topic
+      terraformModules: ${{ parameters.terraformModules }}
