@@ -81,9 +81,10 @@ case $1 in
     echo "Expected TFLint version: $TFLINT_VERSION"
     echo "Expected TFLint AWS Ruleset version: $TFLINT_AWS_VERSION"
     echo "Detected CPU architecture: $ARCH"
-    echo "Detected Operating system: $OS"
+    echo "Detected operating system: $OS"
     echo "Terragrunt download URL: $TERRAGRUNT_URL" 
     echo "TFLint download URL: $TFLINT_URL" 
+    echo "Installed: " 
     ./"$BIN_DIR"/"$TERRAGRUNT_EXE" --version
   ;;
   clean)
