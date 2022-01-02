@@ -21,5 +21,7 @@ steps:
       scriptType: inline
       inlineScript: |
         ${{ parameters.cmdExe }} ${{ parameters.cmdOptions }}
+        echo "cmd: ${{ parameters.cmdExe }}"
+        echo "options: ${{ parameters.cmdOptions }}"
       disableAutoCwd: true
       workingDirectory: ${{ parameters.workingDirectory }}
