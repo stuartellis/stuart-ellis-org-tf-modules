@@ -32,7 +32,7 @@ trigger:
       - README.md
 
 stages:
-  - template: shared/pipeline-templates/terraform/test-tf-modules.yml
+  - template: pipeline-templates/terraform/test-tf-modules.yml@shared
     parameters:
       environment: infra-test
       providerName: aws
