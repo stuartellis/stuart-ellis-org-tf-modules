@@ -20,7 +20,7 @@ resources:
     - repository: azdo-shared-tasks
       type: git
       name: azdo-shared-tasks
-      ref: refs/heads/master
+      ref: refs/heads/main
 
 trigger:
   branches:
