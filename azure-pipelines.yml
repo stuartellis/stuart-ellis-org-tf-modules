@@ -7,7 +7,7 @@ parameters:
     displayName: Terraform modules
     type: object
     default:
-      shared_ssm_parameters: shared_ssm_parameters
+      custom_ssm_parameters: custom_ssm_parameters
       sns_topic: sns_topic
 
 variables:
