@@ -29,11 +29,10 @@ trigger:
       - develop
   paths:
     exclude:
-      - CONTRIBUTING.md
       - README.md
 
 stages:
-  - template: shared/pipeline-templates/terraform/test-tf-modules.yml
+  - template: ./shared/pipeline-templates/terraform/test-tf-modules.yml
     parameters:
       environment: infra-test
       providerName: aws
