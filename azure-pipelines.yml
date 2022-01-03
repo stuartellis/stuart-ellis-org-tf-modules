@@ -33,7 +33,7 @@ trigger:
       - README.md
 
 stages:
-  - template: azdo-shared-tasks/test-tf-modules.yml
+  - template: azdo-shared-tasks/pipeline-templates/terraform/test-tf-modules.yml
     parameters:
       environment: infra-test
       providerName: aws
