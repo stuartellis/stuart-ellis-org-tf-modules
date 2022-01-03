@@ -109,6 +109,7 @@ case $1 in
     ./"$BIN_DIR"/"$TERRAFORM_EXE" version
     ./"$BIN_DIR"/"$TERRAGRUNT_EXE" --version
     ./"$BIN_DIR"/"$TFLINT_EXE" --version
+    find $TFLINT_PLUGIN_DIR
   ;;
   clean)
     [ -d $BIN_DIR ] && rm -r $BIN_DIR
