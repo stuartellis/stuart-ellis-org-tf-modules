@@ -19,7 +19,7 @@ resources:
   repositories:
     - repository: azdo-shared-tasks
       type: git
-      name: azdo-shared-tasks
+      name: sje-ado-labs/azdo-shared-tasks
       ref: refs/heads/main
 
 trigger:
