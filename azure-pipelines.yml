@@ -1,8 +1,4 @@
 parameters:
-  - name: dryRun
-    displayName: Dry run only
-    type: boolean
-    default: true
   - name: terraformModules
     displayName: Terraform modules
     type: object
