@@ -102,6 +102,7 @@ case $1 in
     echo "- Terragrunt version: $TERRAGRUNT_VERSION"
     echo "- TFLint version: $TFLINT_VERSION"
     echo "- TFLint AWS ruleset version: $TFLINT_AWS_VERSION"
+    echo "- Terraform download URL: $TERRAFORM_URL" 
     echo "- Terragrunt download URL: $TERRAGRUNT_URL" 
     echo "- TFLint download URL: $TFLINT_URL" 
     echo "Installed in project: " 
