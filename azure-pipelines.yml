@@ -17,9 +17,9 @@ name: ${{variables.name}}-$(Date:yyyyMMddhhmm).$(Rev:r)
 
 resources:
   repositories:
-    - repository: azdo-shared-tasks
+    - repository: shared
       type: git
-      name: sje-ado-labs/azdo-shared-tasks
+      name: azdo-shared-tasks
       ref: refs/heads/main
 
 trigger:
@@ -33,7 +33,7 @@ trigger:
       - README.md
 
 stages:
-  - template: azdo-shared-tasks/pipeline-templates/terraform/test-tf-modules.yml
+  - template: shared/pipeline-templates/terraform/test-tf-modules.yml
     parameters:
       environment: infra-test
       providerName: aws
