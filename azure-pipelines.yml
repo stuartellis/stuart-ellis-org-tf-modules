@@ -15,6 +15,13 @@ variables:
 
 name: ${{variables.name}}-$(Date:yyyyMMddhhmm).$(Rev:r)
 
+resources:
+  repositories:
+    - repository: azdo-shared-tasks
+      type: git
+      name: azdo-shared-tasks
+      ref: refs/heads/master
+
 trigger:
   branches:
     include:
