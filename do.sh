@@ -7,27 +7,19 @@ set -euo pipefail
 export BIN_DIR="bin"
 export CONFIG_DIR="config"
 export PLUGINS_DIR="plugins"
+export TFLINT_PLUGIN_DIR="$PLUGINS_DIR/tflint"
 export TMP_DIR="tmp"
 
-TFLINT_VERSION=$(jq -r .config.tflint.version package.json)
-export TFLINT_VERSION
+export TERRAFORM_EXE=terraform
+export TERRAGRUNT_EXE=terragrunt
 export TFLINT_EXE=tflint
 
-TFLINT_AWS_VERSION=$(jq -r '.config.tflint.rulesets["ruleset-aws"]' package.json)
-export TFLINT_AWS_VERSION
-TFLINT_AWS_TEMPLATE_CONFIG="templates/tflint/aws/.tflint.hcl"
-export TFLINT_AWS_TEMPLATE_CONFIG
-TFLINT_AWS_LIVE_CONFIG="$CONFIG_DIR/.tflint.hcl"
-export TFLINT_AWS_LIVE_CONFIG
-
-TERRAGRUNT_VERSION=$(jq -r .config.terragrunt.version package.json)
-export TERRAGRUNT_VERSION
-export TERRAGRUNT_EXE=terragrunt
 
 ### Functions
 
 function generate_configs () {
-  cat $TFLINT_AWS_TEMPLATE_CONFIG | sed s/X.X.X/"$TFLINT_AWS_VERSION"/g >> $CONFIG_DIR/.tflint.hcl
+  TFLINT_AWS_TEMPLATE_CONFIG="$SRC_DIR/templates/tflint/aws/.tflint.hcl"
+  cat $TFLINT_AWS_TEMPLATE_CONFIG | sed s/X.X.X/"$TFLINT_AWS_VERSION"/g > $CONFIG_DIR/.tflint.hcl
 }
 
 function specify_arch () {
@@ -54,8 +46,9 @@ function specify_os () {
 }
 
 function specify_download_urls () {
-  specify_arch
-  specify_os
+  export TERRAFORM_FILE=terraform_"$TERRAFORM_VERSION"_"$OS"_"$ARCH"
+  TERRAFORM_URL="https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/$TERRAFORM_FILE.zip"
+  export TERRAFORM_URL
 
   export TERRAGRUNT_FILE=terragrunt_"$OS"_"$ARCH"
   TERRAGRUNT_URL="https://github.com/gruntwork-io/terragrunt/releases/download/v$TERRAGRUNT_VERSION/$TERRAGRUNT_FILE"
@@ -66,6 +59,20 @@ function specify_download_urls () {
   export TFLINT_URL
 }
 
+function specify_versions () {
+  TERRAFORM_VERSION=$(jq -r .config.terraform.version "$SRC_DIR/package.json")
+  export TERRAFORM_VERSION
+
+  TERRAGRUNT_VERSION=$(jq -r .config.terragrunt.version "$SRC_DIR/package.json")
+  export TERRAGRUNT_VERSION
+
+  TFLINT_VERSION=$(jq -r .config.tflint.version "$SRC_DIR/package.json")
+  export TFLINT_VERSION
+
+  TFLINT_AWS_VERSION=$(jq -r '.config.tflint.rulesets["ruleset-aws"]' "$SRC_DIR/package.json")
+  export TFLINT_AWS_VERSION
+}
+
 ### Main
 
 if [ ! "${1:-}" ]; then 
@@ -73,36 +80,61 @@ if [ ! "${1:-}" ]; then
   exit 1
 fi
 
+if [ "${2:-}" ]; then 
+  SRC_DIR="$2"
+else 
+  SRC_DIR="$(pwd)"
+fi
+
+export SRC_DIR
+
 case $1 in
   info)
     specify_arch
     specify_os
+    specify_versions
     specify_download_urls
-    echo "Expected Terragrunt version: $TERRAGRUNT_VERSION"
-    echo "Expected TFLint version: $TFLINT_VERSION"
-    echo "Expected TFLint AWS Ruleset version: $TFLINT_AWS_VERSION"
-    echo "Detected CPU architecture: $ARCH"
-    echo "Detected operating system: $OS"
-    echo "Terragrunt download URL: $TERRAGRUNT_URL" 
-    echo "TFLint download URL: $TFLINT_URL" 
-    echo "Installed: " 
+    echo "Detected: "
+    echo "- CPU architecture: $ARCH"
+    echo "- Operating system: $OS"
+    echo "Configuration: "
+    echo "- Terraform version: $TERRAFORM_VERSION"
+    echo "- Terragrunt version: $TERRAGRUNT_VERSION"
+    echo "- TFLint version: $TFLINT_VERSION"
+    echo "- TFLint AWS ruleset version: $TFLINT_AWS_VERSION"
+    echo "- Terragrunt download URL: $TERRAGRUNT_URL" 
+    echo "- TFLint download URL: $TFLINT_URL" 
+    echo "Installed in project: " 
+    ./"$BIN_DIR"/"$TERRAFORM_EXE" version
     ./"$BIN_DIR"/"$TERRAGRUNT_EXE" --version
+    ./"$BIN_DIR"/"$TFLINT_EXE" --version
   ;;
   clean)
-   [ -d $BIN_DIR ] && rm -r $BIN_DIR
-   [ -d $CONFIG_DIR ] && rm -r $CONFIG_DIR 
-   [ -d $PLUGINS_DIR ] && rm -r $PLUGINS_DIR
-   [ -d $TMP_DIR ] && rm -r $TMP_DIR 
+    [ -d $BIN_DIR ] && rm -r $BIN_DIR
+    [ -d $CONFIG_DIR ] && rm -r $CONFIG_DIR 
+    [ -d $PLUGINS_DIR ] && rm -r $PLUGINS_DIR
+    [ -d $TMP_DIR ] && rm -r $TMP_DIR 
+  ;;
+  configure)
+    generate_configs
   ;;
   setup)
     specify_arch
     specify_os
+    specify_versions
     specify_download_urls
     [ -d "$BIN_DIR" ] || mkdir "$BIN_DIR"
     [ -d "$CONFIG_DIR" ] || mkdir "$CONFIG_DIR"
     [ -d "$PLUGINS_DIR" ] || mkdir "$PLUGINS_DIR"
-    [ -d "$PLUGINS_DIR/tflint" ] || mkdir "$PLUGINS_DIR/tflint"
     [ -d "$TMP_DIR" ] || mkdir "$TMP_DIR"
+
+    # Terraform
+    if [ ! -x "$BIN_DIR/$TERRAFORM_EXE" ]; then 
+      curl -L "$TERRAFORM_URL" > $TMP_DIR/$TERRAFORM_EXE.zip
+      unzip $TMP_DIR/$TERRAFORM_EXE.zip -d $TMP_DIR
+      mv $TMP_DIR/$TERRAFORM_EXE $BIN_DIR/$TERRAFORM_EXE
+      chmod +x "$BIN_DIR"/"$TERRAFORM_EXE"
+    fi
 
     # Terragrunt
     if [ ! -x "$BIN_DIR/$TERRAGRUNT_EXE" ]; then 
@@ -119,6 +151,11 @@ case $1 in
     fi
 
     generate_configs
+
+    if [ ! -d "$TFLINT_PLUGIN_DIR" ]; then 
+      mkdir "$TFLINT_PLUGIN_DIR"
+      "$BIN_DIR"/"$TFLINT_EXE" --init -c config/.tflint.hcl
+    fi
 
   ;;
   *)
