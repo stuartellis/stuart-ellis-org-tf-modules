@@ -33,13 +33,13 @@ trigger:
       - README.md
 
 stages:
-  - template: .azure-pipelines/test-tf-modules.yml
+  - template: azdo-shared-tasks/test-tf-modules.yml
     parameters:
       environment: infra-test
       providerName: aws
       providerServiceConnection: sje-aws-origin
       cloudRegion: us-east-1
       runIdentifier: tf-run-aws-test-stuartellis-origin-us-east-1-$(Build.BuildId)
-      terraformSourcePath: $(Build.Repository.LocalPath)/aws
+      terraformSourcePath: $(Build.Repository.LocalPath)/stuartellis-org-tf-modules/aws
       vmImage: ${{ variables.vmImage }}
       terraformModules: ${{ parameters.terraformModules }}
