@@ -6,6 +6,7 @@ set -euo pipefail
 
 export BIN_DIR="bin"
 export CONFIG_DIR="config"
+export PLUGINS_DIR="plugins"
 export TMP_DIR="tmp"
 
 TFLINT_VERSION=$(jq -r .config.tflint.version package.json)
@@ -90,6 +91,7 @@ case $1 in
   clean)
    [ -d $BIN_DIR ] && rm -r $BIN_DIR
    [ -d $CONFIG_DIR ] && rm -r $CONFIG_DIR 
+   [ -d $PLUGINS_DIR ] && rm -r $PLUGINS_DIR
    [ -d $TMP_DIR ] && rm -r $TMP_DIR 
   ;;
   setup)
@@ -98,6 +100,8 @@ case $1 in
     specify_download_urls
     [ -d "$BIN_DIR" ] || mkdir "$BIN_DIR"
     [ -d "$CONFIG_DIR" ] || mkdir "$CONFIG_DIR"
+    [ -d "$PLUGINS_DIR" ] || mkdir "$PLUGINS_DIR"
+    [ -d "$PLUGINS_DIR/tflint" ] || mkdir "$PLUGINS_DIR/tflint"
     [ -d "$TMP_DIR" ] || mkdir "$TMP_DIR"
 
     # Terragrunt

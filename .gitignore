@@ -4,6 +4,7 @@
 ## Temporary files
 bin
 config
+plugins
 tmp
 .DS_Store
 lint-results.xml
