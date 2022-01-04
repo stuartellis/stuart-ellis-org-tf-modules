@@ -109,6 +109,8 @@ case $1 in
     ./"$BIN_DIR"/"$TERRAFORM_EXE" version
     ./"$BIN_DIR"/"$TERRAGRUNT_EXE" --version
     ./"$BIN_DIR"/"$TFLINT_EXE" --version
+    echo "Working directory: " 
+    echo $(pwd)
     find $TFLINT_PLUGIN_DIR
   ;;
   clean)
