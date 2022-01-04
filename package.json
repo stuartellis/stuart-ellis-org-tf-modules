@@ -17,8 +17,8 @@
     }
   },
   "scripts": {
-    "clean": "rimraf bin config plugins tmp",
-    "install": "./do.sh setup",
+    "clean": "./do.sh clean",
+    "install": "./do.sh install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,7 +31,5 @@
     "url": "https://github.com/stuartellis/stuartellis-org-tf-modules/issues"
   },
   "homepage": "https://github.com/stuartellis/stuartellis-org-tf-modules#readme",
-  "devDependencies": {
-    "rimraf": "^3.0.2"
-  }
+  "devDependencies": {}
 }

@@ -89,6 +89,15 @@ fi
 export SRC_DIR
 
 case $1 in
+  clean)
+    [ -d $BIN_DIR ] && rm -r $BIN_DIR
+    [ -d $CONFIG_DIR ] && rm -r $CONFIG_DIR 
+    [ -d $PLUGINS_DIR ] && rm -r $PLUGINS_DIR
+    [ -d $TMP_DIR ] && rm -r $TMP_DIR 
+  ;;
+  configure)
+    generate_configs
+  ;;
   info)
     specify_arch
     specify_os
@@ -113,16 +122,7 @@ case $1 in
     echo $(pwd)
     find $TFLINT_PLUGIN_DIR
   ;;
-  clean)
-    [ -d $BIN_DIR ] && rm -r $BIN_DIR
-    [ -d $CONFIG_DIR ] && rm -r $CONFIG_DIR 
-    [ -d $PLUGINS_DIR ] && rm -r $PLUGINS_DIR
-    [ -d $TMP_DIR ] && rm -r $TMP_DIR 
-  ;;
-  configure)
-    generate_configs
-  ;;
-  setup)
+  install)
     specify_arch
     specify_os
     specify_versions
