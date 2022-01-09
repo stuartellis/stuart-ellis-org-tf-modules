@@ -17,8 +17,8 @@
     }
   },
   "scripts": {
-    "clean": "./do.sh clean",
-    "install": "./do.sh install",
+    "clean": "tfenv clean",
+    "install": "tfenv install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
