@@ -35,6 +35,7 @@ stages:
       providerServiceConnection: sje-aws-origin
       cloudRegion: us-east-1
       runIdentifier: tf-run-aws-test-stuartellis-origin-us-east-1-$(Build.BuildId)
+      terraformInstallationDir: $(Agent.TempDirectory)
       terraformSourcePath: $(Build.Repository.LocalPath)/stuartellis-org-tf-modules/aws
       vmImage: ${{ variables.vmImage }}
       terraformModules: ${{ parameters.terraformModules }}
