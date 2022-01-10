@@ -27,6 +27,7 @@
   },
   "author": "Stuart Ellis <stuart@stuartellis.name>",
   "license": "MIT",
+  "private": true,
   "bugs": {
     "url": "https://github.com/stuartellis/stuartellis-org-tf-modules/issues"
   },
