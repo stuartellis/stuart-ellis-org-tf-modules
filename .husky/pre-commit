@@ -4,7 +4,7 @@
 # npm test
 
 # Keep module documentation up to date
-for d in modules/*; do
+for d in modules/aws/*; do
   if terraform-docs md "$d" > "$d/README.md"; then
     git add "./$d/README.md"
   fi
