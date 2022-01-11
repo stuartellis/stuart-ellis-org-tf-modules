@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# npm test
+
+# Keep module documentation up to date
+for d in modules/*; do
+  if terraform-docs md "$d" > "$d/README.md"; then
+    git add "./$d/README.md"
+  fi
+done

@@ -19,7 +19,8 @@
   "scripts": {
     "clean": "./scripts/tfenv clean",
     "install": "./scripts/tfenv install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -32,5 +33,7 @@
     "url": "https://github.com/stuartellis/stuartellis-org-tf-modules/issues"
   },
   "homepage": "https://github.com/stuartellis/stuartellis-org-tf-modules#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "husky": "^7.0.0"
+  }
 }
