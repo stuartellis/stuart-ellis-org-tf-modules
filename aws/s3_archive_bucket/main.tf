@@ -11,7 +11,7 @@ terraform {
 }
 
 resource "aws_s3_bucket" "archive" {
-  bucket = var.bucket_name
+  bucket = "${var.s3_bucket_prefix}-${var.aws_account_id}-${var.aws_region}"
   acl    = "private"
 
   server_side_encryption_configuration {

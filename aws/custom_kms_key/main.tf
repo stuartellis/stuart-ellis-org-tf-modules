@@ -17,5 +17,5 @@ resource "aws_kms_key" "main" {
 
 resource "aws_kms_alias" "main" {
   name          = "alias/${var.key_name}"
-  target_key_id = aws_kms_key.main.key_name
+  target_key_id = aws_kms_key.main.key_id
 }
