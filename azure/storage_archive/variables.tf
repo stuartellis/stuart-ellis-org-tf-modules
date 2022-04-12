@@ -1,3 +1,3 @@
-variable "location" {
+variable "azure_location" {
   type = string
 }

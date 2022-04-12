@@ -10,15 +10,15 @@ terraform {
 
 }
 
-resource "azurerm_resource_group" "archive" {
+resource "azurerm_resource_group" "archive_rg" {
   name     = "archive-resources"
-  location = var.location
+  location = var.azure_location
 }
 
 resource "azurerm_storage_account" "example" {
   name                     = "sjearchive00010"
-  resource_group_name      = azurerm_resource_group.archive.name
-  location                 = azurerm_resource_group.archive.location
+  resource_group_name      = azurerm_resource_group.archive_rg.name
+  location                 = azurerm_resource_group.archive_rg.location
   account_tier             = "Standard"
   account_replication_type = "GRS"
 
