@@ -14,7 +14,8 @@
     },
     "tflint": {
       "rulesets": {
-        "ruleset-aws": "0.13.2"
+        "ruleset-aws": "0.13.2",
+        "ruleset-azure": "0.15.0"
       },
       "version": "0.35.0"
     }

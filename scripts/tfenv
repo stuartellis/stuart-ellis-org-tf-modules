@@ -12,7 +12,8 @@ TFLINT_EXE=tflint
 ### Functions
 
 function generate_configs () {
-  cat "$TEMPLATES_SRC_DIR/tflint/aws/.tflint.hcl" | sed s/X.X.X/"$TFLINT_AWS_VERSION"/g > "$CONFIG_DIR/.tflint.hcl"
+  cat "$TEMPLATES_SRC_DIR/tflint/aws/.tflint.hcl" | sed s/X.X.X/"$TFLINT_AWS_VERSION"/g > "$CONFIG_DIR/.tflint.aws.hcl"
+  cat "$TEMPLATES_SRC_DIR/tflint/azure/.tflint.hcl" | sed s/X.X.X/"$TFLINT_AZURE_VERSION"/g > "$CONFIG_DIR/.tflint.azure.hcl"
   cp "$TEMPLATES_SRC_DIR/terraform-docs/.terraform-docs.yml" "$CONFIG_DIR/.terraform-docs.yml"
 }
 
@@ -80,6 +81,9 @@ function specify_versions () {
 
   TFLINT_AWS_VERSION=$(jq -r '.config.tflint.rulesets["ruleset-aws"]' "$MANIFEST_FILE")
   export TFLINT_AWS_VERSION
+
+  TFLINT_AZURE_VERSION=$(jq -r '.config.tflint.rulesets["ruleset-azure"]' "$MANIFEST_FILE")
+  export TFLINT_AZURE_VERSION
 }
 
 ### Main
@@ -136,6 +140,7 @@ case $1 in
     echo "- Terragrunt version: $TERRAGRUNT_VERSION"
     echo "- TFLint version: $TFLINT_VERSION"
     echo "- TFLint AWS ruleset version: $TFLINT_AWS_VERSION"
+    echo "- TFLint Azure ruleset version: $TFLINT_AZURE_VERSION"
     echo "- Terraform download URL: $TERRAFORM_URL" 
     echo "- Terragrunt download URL: $TERRAGRUNT_URL" 
     echo "- TFLint download URL: $TFLINT_URL"

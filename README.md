@@ -9,8 +9,9 @@ This uses these providers:
 
 ## Testing
 
-To test a module with [TFLint](https://github.com/terraform-linters/tflint):
+To test a module with [TFLint](https://github.com/terraform-linters/tflint), specify a TFLint configuration file:
 
-    TFLINT_PLUGIN_DIR=plugins/tflint tflint -c config/.tflint.hcl <MODULE_DIR>
+    export TFLINT_PLUGIN_DIR=plugins/tflint 
+    tflint -c config/.tflint.aws.hcl --init <MODULE_DIR>
 
-> This configuration uses deep check to validate against your live AWS environment.
+> The AWS configuration uses deep check to validate against your live AWS environment.
