@@ -5,12 +5,14 @@
 
 # Keep module documentation up to date
 for d in aws/*; do
+  tflint -c config/.tflint.aws.hcl "$d"
   if terraform-docs -c config/.terraform-docs.yml md "$d" > "$d/README.md"; then
     git add "./$d/README.md"
   fi
 done
 
 for d in azure/*; do
+  tflint -c config/.tflint.azure.hcl "$d"
   if terraform-docs -c config/.terraform-docs.yml md "$d" > "$d/README.md"; then
     git add "./$d/README.md"
   fi
