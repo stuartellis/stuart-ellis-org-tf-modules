@@ -5,7 +5,13 @@
 
 # Keep module documentation up to date
 for d in aws/*; do
-  if terraform-docs md "$d" > "$d/README.md"; then
+  if terraform-docs -c config/.terraform-docs.yml md "$d" > "$d/README.md"; then
+    git add "./$d/README.md"
+  fi
+done
+
+for d in azure/*; do
+  if terraform-docs -c config/.terraform-docs.yml md "$d" > "$d/README.md"; then
     git add "./$d/README.md"
   fi
 done

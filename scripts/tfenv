@@ -5,6 +5,7 @@ set -euo pipefail
 ### Configuration
 
 TERRAFORM_EXE=terraform
+TERRAFORM_DOCS_EXE=terraform-docs
 TERRAGRUNT_EXE=terragrunt
 TFLINT_EXE=tflint
 
@@ -12,6 +13,7 @@ TFLINT_EXE=tflint
 
 function generate_configs () {
   cat "$TEMPLATES_SRC_DIR/tflint/aws/.tflint.hcl" | sed s/X.X.X/"$TFLINT_AWS_VERSION"/g > "$CONFIG_DIR/.tflint.hcl"
+  cp "$TEMPLATES_SRC_DIR/terraform-docs/.terraform-docs.yml" "$CONFIG_DIR/.terraform-docs.yml"
 }
 
 function specify_arch () {
@@ -50,6 +52,10 @@ function specify_download_urls () {
   TERRAFORM_URL="https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/$TERRAFORM_FILE.zip"
   export TERRAFORM_URL
 
+  export TERRAFORM_DOCS_FILE=terraform-docs-v"$TERRAFORM_DOCS_VERSION"-"$OS"-"$ARCH"
+  TERRAFORM_DOCS_URL="https://terraform-docs.io/dl/v$TERRAFORM_DOCS_VERSION/$TERRAFORM_DOCS_FILE.tar.gz"
+  export TERRAFORM_DOCS_URL
+
   export TERRAGRUNT_FILE=terragrunt_"$OS"_"$ARCH"
   TERRAGRUNT_URL="https://github.com/gruntwork-io/terragrunt/releases/download/v$TERRAGRUNT_VERSION/$TERRAGRUNT_FILE"
   export TERRAGRUNT_URL
@@ -62,6 +68,9 @@ function specify_download_urls () {
 function specify_versions () {
   TERRAFORM_VERSION=$(jq -r .config.terraform.version "$MANIFEST_FILE")
   export TERRAFORM_VERSION
+
+  TERRAFORM_DOCS_VERSION=$(jq -r '.config."terraform-docs".version' "$MANIFEST_FILE")
+  export TERRAFORM_DOCS_VERSION
 
   TERRAGRUNT_VERSION=$(jq -r .config.terragrunt.version "$MANIFEST_FILE")
   export TERRAGRUNT_VERSION
@@ -123,6 +132,7 @@ case $1 in
     echo "---"
     echo "## Project Configuration: "
     echo "- Terraform version: $TERRAFORM_VERSION"
+    echo "- terraform-docs version: $TERRAFORM_DOCS_VERSION"
     echo "- Terragrunt version: $TERRAGRUNT_VERSION"
     echo "- TFLint version: $TFLINT_VERSION"
     echo "- TFLint AWS ruleset version: $TFLINT_AWS_VERSION"
@@ -132,6 +142,7 @@ case $1 in
     echo "---"
     echo "## Installed in project: " 
     "$BIN_DIR"/"$TERRAFORM_EXE" version
+    "$BIN_DIR"/"$TERRAFORM_DOCS_EXE" version
     "$BIN_DIR"/"$TERRAGRUNT_EXE" --version
     "$BIN_DIR"/"$TFLINT_EXE" --version
   ;;
@@ -152,6 +163,14 @@ case $1 in
       unzip $TMP_DIR/$TERRAFORM_EXE.zip -d $TMP_DIR
       mv $TMP_DIR/$TERRAFORM_EXE $BIN_DIR/$TERRAFORM_EXE
       chmod +x "$BIN_DIR"/"$TERRAFORM_EXE"
+    fi
+
+    # terraform-docs
+    if [ ! -x "$BIN_DIR/$TERRAFORM_DOCS_EXE" ]; then 
+      curl -L "$TERRAFORM_DOCS_URL" > $TMP_DIR/$TERRAFORM_DOCS_EXE.tar.gz
+      tar -xvzf $TMP_DIR/$TERRAFORM_DOCS_EXE.tar.gz -C $TMP_DIR
+      mv $TMP_DIR/$TERRAFORM_DOCS_EXE $BIN_DIR/$TERRAFORM_DOCS_EXE
+      chmod +x "$BIN_DIR"/"$TERRAFORM_DOCS_EXE"
     fi
 
     # Terragrunt
