@@ -25,7 +25,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | n/a | `string` | n/a | yes |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | The prefix for resource identifiers | `string` | n/a | yes |
 
 ## Outputs
 
