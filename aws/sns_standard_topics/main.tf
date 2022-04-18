@@ -25,6 +25,6 @@ resource "aws_sns_topic" "current" {
   display_name = "${var.namespace}-${each.key}"
 
   tags = {
-    "${var.namespace}:alerts" = each.key
+    "${var.namespace}:tf:alerts" = each.key
   }
 }
