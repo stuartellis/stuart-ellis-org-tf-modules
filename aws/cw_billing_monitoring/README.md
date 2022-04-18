@@ -19,7 +19,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_cloudwatch_dashboard.main](https://registry.terraform.io/providers/hashicorp/terraform/4.10.0/docs/resources/cloudwatch_dashboard) | resource |
+| [aws_cloudwatch_dashboard.main](https://registry.terraform.io/providers/hashicorp/aws/4.10.0/docs/resources/cloudwatch_dashboard) | resource |
 
 ## Inputs
 
