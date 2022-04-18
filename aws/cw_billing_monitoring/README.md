@@ -19,13 +19,11 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_sns_topic.main](https://registry.terraform.io/providers/hashicorp/aws/4.10.0/docs/resources/sns_topic) | resource |
+| [aws_cloudwatch_dashboard.main](https://registry.terraform.io/providers/hashicorp/terraform/4.10.0/docs/resources/cloudwatch_dashboard) | resource |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | The prefix for resource identifiers | `string` | n/a | yes |
+No inputs.
 
 ## Outputs
 

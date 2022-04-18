@@ -18,7 +18,7 @@ locals {
   ]
 }
 
-resource "aws_sns_topic" "current" {
+resource "aws_sns_topic" "main" {
   for_each = toset(local.levels)
 
   name = "${var.namespace}-alerts-${lower(each.key)}"
