@@ -19,7 +19,7 @@ locals {
 }
 
 resource "aws_sns_topic" "current" {
-  for_each = local.levels
+  for_each = toset(local.levels)
 
   name = "${var.namespace}-alerts-${each.key}"
   display_name = "${var.namespace}-${each.key}"
