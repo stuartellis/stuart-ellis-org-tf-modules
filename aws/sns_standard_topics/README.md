@@ -20,6 +20,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_sns_topic.main](https://registry.terraform.io/providers/hashicorp/aws/4.10.0/docs/resources/sns_topic) | resource |
+| [aws_ssm_parameter.main](https://registry.terraform.io/providers/hashicorp/aws/4.10.0/docs/resources/ssm_parameter) | resource |
 
 ## Inputs
 
@@ -29,4 +30,6 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_sns_topic_arns"></a> [sns\_topic\_arns](#output\_sns\_topic\_arns) | n/a |
