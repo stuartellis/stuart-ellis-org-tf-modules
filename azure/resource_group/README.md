@@ -19,15 +19,17 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_resource_group.archive_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.3.0/docs/resources/resource_group) | resource |
-| [azurerm_storage_account.example](https://registry.terraform.io/providers/hashicorp/azurerm/3.3.0/docs/resources/storage_account) | resource |
+| [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.3.0/docs/resources/resource_group) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_azure_location"></a> [azure\_location](#input\_azure\_location) | n/a | `string` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"The location of the resource group metadata"` | no |
+| <a name="input_name"></a> [name](#input\_name) | The name of the resource group | `string` | n/a | yes |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_id"></a> [id](#output\_id) | n/a |
